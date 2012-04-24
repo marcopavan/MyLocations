@@ -14,12 +14,13 @@
 		A9A099CC1546F9990041C59F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A9A099CB1546F9990041C59F /* main.m */; };
 		A9A099D01546F9990041C59F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A9A099CF1546F9990041C59F /* AppDelegate.m */; };
 		A9A099D31546F9990041C59F /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A9A099D11546F9990041C59F /* MainStoryboard.storyboard */; };
-		A9A099D61546F9990041C59F /* FirstViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9A099D51546F9990041C59F /* FirstViewController.m */; };
+		A9A099D61546F9990041C59F /* CurrentLocationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9A099D51546F9990041C59F /* CurrentLocationViewController.m */; };
 		A9A099D81546F9990041C59F /* first.png in Resources */ = {isa = PBXBuildFile; fileRef = A9A099D71546F9990041C59F /* first.png */; };
 		A9A099DA1546F9990041C59F /* first@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A9A099D91546F9990041C59F /* first@2x.png */; };
 		A9A099DD1546F9990041C59F /* SecondViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9A099DC1546F9990041C59F /* SecondViewController.m */; };
 		A9A099DF1546F9990041C59F /* second.png in Resources */ = {isa = PBXBuildFile; fileRef = A9A099DE1546F9990041C59F /* second.png */; };
 		A9A099E11546F9990041C59F /* second@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A9A099E01546F9990041C59F /* second@2x.png */; };
+		A9A099ED154701000041C59F /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9A099EC154701000041C59F /* CoreLocation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,14 +35,15 @@
 		A9A099CE1546F9990041C59F /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		A9A099CF1546F9990041C59F /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		A9A099D21546F9990041C59F /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
-		A9A099D41546F9990041C59F /* FirstViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FirstViewController.h; sourceTree = "<group>"; };
-		A9A099D51546F9990041C59F /* FirstViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FirstViewController.m; sourceTree = "<group>"; };
+		A9A099D41546F9990041C59F /* CurrentLocationViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CurrentLocationViewController.h; sourceTree = "<group>"; };
+		A9A099D51546F9990041C59F /* CurrentLocationViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CurrentLocationViewController.m; sourceTree = "<group>"; };
 		A9A099D71546F9990041C59F /* first.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = first.png; sourceTree = "<group>"; };
 		A9A099D91546F9990041C59F /* first@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "first@2x.png"; sourceTree = "<group>"; };
 		A9A099DB1546F9990041C59F /* SecondViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SecondViewController.h; sourceTree = "<group>"; };
 		A9A099DC1546F9990041C59F /* SecondViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SecondViewController.m; sourceTree = "<group>"; };
 		A9A099DE1546F9990041C59F /* second.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = second.png; sourceTree = "<group>"; };
 		A9A099E01546F9990041C59F /* second@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "second@2x.png"; sourceTree = "<group>"; };
+		A9A099EC154701000041C59F /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -49,6 +51,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A9A099ED154701000041C59F /* CoreLocation.framework in Frameworks */,
 				A9A099C01546F9990041C59F /* UIKit.framework in Frameworks */,
 				A9A099C21546F9990041C59F /* Foundation.framework in Frameworks */,
 				A9A099C41546F9990041C59F /* CoreGraphics.framework in Frameworks */,
@@ -78,6 +81,7 @@
 		A9A099BE1546F9990041C59F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				A9A099EC154701000041C59F /* CoreLocation.framework */,
 				A9A099BF1546F9990041C59F /* UIKit.framework */,
 				A9A099C11546F9990041C59F /* Foundation.framework */,
 				A9A099C31546F9990041C59F /* CoreGraphics.framework */,
@@ -91,8 +95,8 @@
 				A9A099CE1546F9990041C59F /* AppDelegate.h */,
 				A9A099CF1546F9990041C59F /* AppDelegate.m */,
 				A9A099D11546F9990041C59F /* MainStoryboard.storyboard */,
-				A9A099D41546F9990041C59F /* FirstViewController.h */,
-				A9A099D51546F9990041C59F /* FirstViewController.m */,
+				A9A099D41546F9990041C59F /* CurrentLocationViewController.h */,
+				A9A099D51546F9990041C59F /* CurrentLocationViewController.m */,
 				A9A099D71546F9990041C59F /* first.png */,
 				A9A099D91546F9990041C59F /* first@2x.png */,
 				A9A099DB1546F9990041C59F /* SecondViewController.h */,
@@ -184,7 +188,7 @@
 			files = (
 				A9A099CC1546F9990041C59F /* main.m in Sources */,
 				A9A099D01546F9990041C59F /* AppDelegate.m in Sources */,
-				A9A099D61546F9990041C59F /* FirstViewController.m in Sources */,
+				A9A099D61546F9990041C59F /* CurrentLocationViewController.m in Sources */,
 				A9A099DD1546F9990041C59F /* SecondViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -297,6 +301,7 @@
 				A9A099E61546F9990041C59F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
