@@ -12,6 +12,7 @@
     -(void)updateLabels;
     - (void)startLocationManager;
     - (void)stopLocationManager;
+    -(void)configureGetButton;
 @end
 
 @implementation CurrentLocationViewController {
@@ -33,6 +34,14 @@
         locationManager = [[CLLocationManager alloc] init];
     }
     return self;
+}
+
+-(void)configureGetButton {
+    if (updatingLocation) {
+        [self.getButton setTitle:@"Stop" forState:UIControlStateNormal];
+    } else {
+        [self.getButton setTitle:@"Get My Location" forState:UIControlStateNormal];
+    }
 }
 
 -(void)updateLabels {
@@ -70,6 +79,7 @@
 {
     [super viewDidLoad];
     [self updateLabels];
+    [self configureGetButton];
 	// Do any additional setup after loading the view, typically from a nib.
 }
 
@@ -94,8 +104,16 @@
 }
 
 - (IBAction)getLocation:(id)sender {
-    [self startLocationManager];
+    if (updatingLocation) {
+        [self stopLocationManager];
+    } else {
+        location = nil;
+        lastLocationError = nil;
+        [self startLocationManager];
+    }
+    
     [self updateLabels];
+    [self configureGetButton];
 }
 
 - (void)startLocationManager {
@@ -125,13 +143,33 @@
     [self stopLocationManager];
     lastLocationError = error;
     [self updateLabels];
+    [self configureGetButton];
 }
 
 -(void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
     NSLog(@"didUpdateToLocation %@", newLocation);
-    lastLocationError = nil;
-    location = newLocation;
-    [self updateLabels];
+    
+    if ([newLocation.timestamp timeIntervalSinceNow] < -5.0) {
+        return;
+    }
+    
+    if (newLocation.horizontalAccuracy <0) {
+        return;
+    }
+    
+    if (location ==nil || location.horizontalAccuracy > newLocation.horizontalAccuracy) {
+        lastLocationError = nil;
+        location = newLocation;
+        [self updateLabels];
+        
+        if (newLocation.horizontalAccuracy <= locationManager.desiredAccuracy) {
+            NSLog(@"*** We're done!");
+            [self stopLocationManager];
+            [self configureGetButton];
+        }
+    }
+    
+    
 }
 
 @end
