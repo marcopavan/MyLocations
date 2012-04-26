@@ -143,20 +143,35 @@
         locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
         [locationManager startUpdatingLocation];
         updatingLocation = YES;
+        
+        [self performSelector:@selector(didTimeOut:) withObject:nil afterDelay:60];
     }
 }
 
--(void)stopLocationManager {
+- (void)stopLocationManager {
     if (updatingLocation) {
+        
+        [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(didTimeOut:) object:nil];
+        
         [locationManager stopUpdatingLocation];
         locationManager.delegate = nil;
         updatingLocation = NO;
     }
 }
 
+- (void)didTimeOut:(id)obj {
+    NSLog(@"*** Time out");
+    if (location == nil) {
+        [self stopLocationManager];
+        lastLocationError = [NSError errorWithDomain:@"MyLocationsErrorDomain" code:1 userInfo:nil];
+        [self updateLabels];
+        [self configureGetButton];
+    }
+}
+
 #pragma mark - CLLocationManagerDelegate
 
--(void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
+- (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
     NSLog(@"didFailWithError %@", error);
     if (error.code == kCLErrorLocationUnknown) {
         return;
@@ -167,7 +182,7 @@
     [self configureGetButton];
 }
 
--(void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
+- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
     NSLog(@"didUpdateToLocation %@", newLocation);
     
     if ([newLocation.timestamp timeIntervalSinceNow] < -5.0) {
@@ -176,6 +191,11 @@
     
     if (newLocation.horizontalAccuracy <0) {
         return;
+    }
+    
+    CLLocationDistance distance = MAXFLOAT;
+    if (location != nil) {
+        distance = [newLocation distanceFromLocation:location];
     }
     
     if (location == nil || location.horizontalAccuracy > newLocation.horizontalAccuracy) {
@@ -187,25 +207,37 @@
             NSLog(@"*** We're done!");
             [self stopLocationManager];
             [self configureGetButton];
+            
+            if (distance > 0) {
+                performingReverseGeocoding = NO;
+            }
         }
         
-    }
-    
-    if (!performingReverseGeocoding) {
-        NSLog(@"*** Going to geocode");
-        performingReverseGeocoding = YES;
-        [geocoder reverseGeocodeLocation:location completionHandler:^(NSArray *placemarks, NSError *error) {
-            NSLog(@"*** Found placemarks: %@, error: %@", placemarks, error);
-            lastGeocodingError = error;
-            if (error == nil && [placemarks count] > 0 ) {
-                placemark = [placemarks lastObject];
-            } else {
-                placemark = nil;
-            }
-            
-            performingReverseGeocoding = NO;
+        if (!performingReverseGeocoding) {
+            NSLog(@"*** Going to geocode");
+            performingReverseGeocoding = YES;
+            [geocoder reverseGeocodeLocation:location completionHandler:^(NSArray *placemarks, NSError *error) {
+                NSLog(@"*** Found placemarks: %@, error: %@", placemarks, error);
+                lastGeocodingError = error;
+                if (error == nil && [placemarks count] > 0 ) {
+                    placemark = [placemarks lastObject];
+                } else {
+                    placemark = nil;
+                }
+                
+                performingReverseGeocoding = NO;
+                [self updateLabels];
+            }];
+        }
+        
+    } else if (distance < 1.0) {
+        NSTimeInterval timeInterval = [newLocation.timestamp timeIntervalSinceDate:location.timestamp];
+        if (timeInterval > 10) {
+            NSLog(@"*** Force done!");
+            [self stopLocationManager];
             [self updateLabels];
-        }];
+            [self configureGetButton];
+        }
     }
     
 }
