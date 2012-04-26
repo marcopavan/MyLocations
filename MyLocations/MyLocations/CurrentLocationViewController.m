@@ -20,6 +20,11 @@
     CLLocation *location;
     BOOL updatingLocation;
     NSError *lastLocationError;
+    
+    CLGeocoder *geocoder;
+    CLPlacemark *placemark;
+    BOOL performingReverseGeocoding;
+    NSError *lastGeocodingError;
 }
 
 @synthesize messageLabel;
@@ -32,6 +37,7 @@
 - (id)initWithCoder:(NSCoder *)aDecoder {
     if ((self = [super initWithCoder:aDecoder])) {
         locationManager = [[CLLocationManager alloc] init];
+        geocoder = [[CLGeocoder alloc] init];
     }
     return self;
 }
@@ -44,12 +50,25 @@
     }
 }
 
+-(NSString *)stringFromPlacemark:(CLPlacemark *)thePlacemark {
+    return [NSString stringWithFormat:@"%@ %@\n%@ %@ %@", thePlacemark.subThoroughfare, thePlacemark.thoroughfare, thePlacemark.locality, thePlacemark.administrativeArea, thePlacemark.postalCode];
+}
+
 -(void)updateLabels {
     if (location != nil) {
         self.messageLabel.text = @"GPS Coordinates";
         self.latitudeLabel.text = [NSString stringWithFormat:@"%.8f", location.coordinate.latitude];
         self.longitudeLabel.text = [NSString stringWithFormat:@"%.8f", location.coordinate.longitude];
         self.tagButton.hidden = NO;
+        if (placemark != nil) {
+            self.addressLabel.text = [self stringFromPlacemark:placemark];
+        } else if (performingReverseGeocoding) {
+            self.addressLabel.text = @"Searching for Address...";
+        } else if (lastGeocodingError != nil) {
+            self.addressLabel.text = @"Error Finding Address";
+        } else {
+            self.addressLabel.text = @"No Address Found";
+        }
     } else {
         self.latitudeLabel.text = @"";
         self.longitudeLabel.text = @"";
@@ -109,6 +128,8 @@
     } else {
         location = nil;
         lastLocationError = nil;
+        placemark = nil;
+        lastGeocodingError = nil;
         [self startLocationManager];
     }
     
@@ -157,7 +178,7 @@
         return;
     }
     
-    if (location ==nil || location.horizontalAccuracy > newLocation.horizontalAccuracy) {
+    if (location == nil || location.horizontalAccuracy > newLocation.horizontalAccuracy) {
         lastLocationError = nil;
         location = newLocation;
         [self updateLabels];
@@ -167,8 +188,25 @@
             [self stopLocationManager];
             [self configureGetButton];
         }
+        
     }
     
+    if (!performingReverseGeocoding) {
+        NSLog(@"*** Going to geocode");
+        performingReverseGeocoding = YES;
+        [geocoder reverseGeocodeLocation:location completionHandler:^(NSArray *placemarks, NSError *error) {
+            NSLog(@"*** Found placemarks: %@, error: %@", placemarks, error);
+            lastGeocodingError = error;
+            if (error == nil && [placemarks count] > 0 ) {
+                placemark = [placemarks lastObject];
+            } else {
+                placemark = nil;
+            }
+            
+            performingReverseGeocoding = NO;
+            [self updateLabels];
+        }];
+    }
     
 }
 
