@@ -6,9 +6,6 @@
 //  Copyright (c) 2012 mpsoftware. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-#import <CoreLocation/CoreLocation.h>
-
 @interface CurrentLocationViewController : UIViewController <CLLocationManagerDelegate>
 
 @property (strong, nonatomic) IBOutlet UILabel *messageLabel;
