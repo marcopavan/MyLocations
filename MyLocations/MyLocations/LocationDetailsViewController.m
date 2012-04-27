@@ -12,7 +12,10 @@
 
 @end
 
-@implementation LocationDetailsViewController
+@implementation LocationDetailsViewController {
+    NSString *descriptionText;
+}
+
 @synthesize descriptionTextView;
 @synthesize categoryLabel;
 @synthesize latitudeLabel;
@@ -21,6 +24,13 @@
 @synthesize dateLabel;
 
 @synthesize coordinate, placemark;
+
+- (id)initWithCoder:(NSCoder *)aDecoder {
+    if ((self = [super initWithCoder:aDecoder])) {
+        descriptionText = @"";
+    }
+    return self;
+}
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -49,6 +59,8 @@
 {
     [super viewDidLoad];
     
+    self.descriptionTextView.text = descriptionText;
+    
     self.descriptionTextView.text = @"";
     self.categoryLabel.text = @"";
     self.latitudeLabel.text = [NSString stringWithFormat:@"%.8f", self.coordinate.latitude];
@@ -60,9 +72,7 @@
         self.addressLabel.text = @"No Address Found";
     }
     
-    self.dateLabel.text = [self formatDate:[NSDate date]];
-
-    
+    self.dateLabel.text = [self formatDate:[NSDate date]];    
 
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -98,6 +108,7 @@
 }
 
 - (IBAction)done:(id)sender {
+    NSLog(@"Description '%@'", descriptionText);
     [self closeScreen];
 }
 
@@ -118,6 +129,17 @@
     } else {
         return 44;
     }
+}
+
+#pragma mark - UITextViewDelegate
+
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
+    descriptionText = [textView.text stringByReplacingCharactersInRange:range withString:text];
+    return YES;
+}
+
+- (void)textViewDidEndEditing:(UITextView *)textView {
+    descriptionText = textView.text;
 }
 
 @end

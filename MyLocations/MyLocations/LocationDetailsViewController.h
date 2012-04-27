@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface LocationDetailsViewController : UITableViewController
+@interface LocationDetailsViewController : UITableViewController <UITextViewDelegate>
 
 @property (strong, nonatomic) IBOutlet UITextView *descriptionTextView;
 @property (strong, nonatomic) IBOutlet UILabel *categoryLabel;
