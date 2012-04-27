@@ -14,6 +14,7 @@
 
 @implementation LocationDetailsViewController {
     NSString *descriptionText;
+    NSString *categoryName;
 }
 
 @synthesize descriptionTextView;
@@ -28,6 +29,7 @@
 - (id)initWithCoder:(NSCoder *)aDecoder {
     if ((self = [super initWithCoder:aDecoder])) {
         descriptionText = @"";
+        categoryName = @"No Category";
     }
     return self;
 }
@@ -60,9 +62,7 @@
     [super viewDidLoad];
     
     self.descriptionTextView.text = descriptionText;
-    
-    self.descriptionTextView.text = @"";
-    self.categoryLabel.text = @"";
+    self.categoryLabel.text = categoryName;
     self.latitudeLabel.text = [NSString stringWithFormat:@"%.8f", self.coordinate.latitude];
     self.longitudeLabel.text = [NSString stringWithFormat:@"%.8f", self.coordinate.longitude];
     
@@ -112,6 +112,14 @@
     [self closeScreen];
 }
 
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([segue.identifier isEqualToString:@"PickCategory"]) {
+        CategoryPickerViewController *controller = segue.destinationViewController;
+        controller.delegate = self;
+        controller.selectedCategoryName = categoryName;
+    }
+}
+
 #pragma mark - UITableViewDelegate
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -140,6 +148,14 @@
 
 - (void)textViewDidEndEditing:(UITextView *)textView {
     descriptionText = textView.text;
+}
+
+#pragma mark CategoryPickerViewControllerDelegate
+
+- (void)categoryPicker:(CategoryPickerViewController *)picker didPickCategory:(NSString *)theCategoryName {
+    categoryName = theCategoryName;
+    self.categoryLabel.text = theCategoryName;
+    //[picker dismissViewControllerAnimated:YES completion:nil];
 }
 
 @end
