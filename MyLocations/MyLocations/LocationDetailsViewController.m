@@ -7,6 +7,7 @@
 //
 
 #import "LocationDetailsViewController.h"
+#import "HudView.h"
 
 @interface LocationDetailsViewController ()
 
@@ -72,13 +73,11 @@
         self.addressLabel.text = @"No Address Found";
     }
     
-    self.dateLabel.text = [self formatDate:[NSDate date]];    
-
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
- 
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    self.dateLabel.text = [self formatDate:[NSDate date]];
+    
+    UITapGestureRecognizer *gestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboard:)];
+    gestureRecognizer.cancelsTouchesInView = NO;
+    [self.tableView addGestureRecognizer:gestureRecognizer];
 }
 
 - (void)viewDidUnload
@@ -99,6 +98,15 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
+- (void)hideKeyboard:(UIGestureRecognizer *)gestureRecognizer {
+    CGPoint point = [gestureRecognizer locationInView:self.tableView];
+    NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:point];
+    if (indexPath != nil && indexPath.section == 0 && indexPath.row == 0) {
+        return;
+    }
+    [self.descriptionTextView resignFirstResponder];
+}
+
 -(void)closeScreen {
     [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }
@@ -108,8 +116,9 @@
 }
 
 - (IBAction)done:(id)sender {
-    NSLog(@"Description '%@'", descriptionText);
-    [self closeScreen];
+    HudView *hudView = [HudView hudInView:self.navigationController.view animated:YES];
+    hudView.text = @"Tagged";
+    [self performSelector:@selector(closeScreen) withObject:nil afterDelay:0.6];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
@@ -136,6 +145,20 @@
         return self.addressLabel.frame.size.height+20;
     } else {
         return 44;
+    }
+}
+
+- (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.section == 0 || indexPath.section == 1) {
+        return indexPath;
+    } else {
+        return nil;
+    }
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.section == 0 && indexPath.row == 0) {
+        [self.descriptionTextView becomeFirstResponder];
     }
 }
 

@@ -23,6 +23,9 @@
 		A9A099DF1546F9990041C59F /* second.png in Resources */ = {isa = PBXBuildFile; fileRef = A9A099DE1546F9990041C59F /* second.png */; };
 		A9A099E11546F9990041C59F /* second@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A9A099E01546F9990041C59F /* second@2x.png */; };
 		A9A099ED154701000041C59F /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9A099EC154701000041C59F /* CoreLocation.framework */; };
+		A9E4834C154C361700B66907 /* HudView.m in Sources */ = {isa = PBXBuildFile; fileRef = A9E4834B154C361700B66907 /* HudView.m */; };
+		A9E48350154C3C5100B66907 /* Checkmark.png in Resources */ = {isa = PBXBuildFile; fileRef = A9E4834E154C3C5100B66907 /* Checkmark.png */; };
+		A9E48351154C3C5100B66907 /* Checkmark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A9E4834F154C3C5100B66907 /* Checkmark@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -50,6 +53,10 @@
 		A9A099DE1546F9990041C59F /* second.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = second.png; sourceTree = "<group>"; };
 		A9A099E01546F9990041C59F /* second@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "second@2x.png"; sourceTree = "<group>"; };
 		A9A099EC154701000041C59F /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		A9E4834A154C361700B66907 /* HudView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HudView.h; sourceTree = "<group>"; };
+		A9E4834B154C361700B66907 /* HudView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HudView.m; sourceTree = "<group>"; };
+		A9E4834E154C3C5100B66907 /* Checkmark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Checkmark.png; sourceTree = "<group>"; };
+		A9E4834F154C3C5100B66907 /* Checkmark@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Checkmark@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,6 +105,7 @@
 		A9A099C51546F9990041C59F /* MyLocations */ = {
 			isa = PBXGroup;
 			children = (
+				A9E48352154C3C5E00B66907 /* img */,
 				A9A099CE1546F9990041C59F /* AppDelegate.h */,
 				A9A099CF1546F9990041C59F /* AppDelegate.m */,
 				A9A099D11546F9990041C59F /* MainStoryboard.storyboard */,
@@ -105,6 +113,8 @@
 				A9A099D51546F9990041C59F /* CurrentLocationViewController.m */,
 				A916E79D1549DB95001561A1 /* LocationDetailsViewController.h */,
 				A916E79E1549DB95001561A1 /* LocationDetailsViewController.m */,
+				A9E4834A154C361700B66907 /* HudView.h */,
+				A9E4834B154C361700B66907 /* HudView.m */,
 				A94A4910154AA08B00DE4781 /* CategoryPickerViewController.h */,
 				A94A4911154AA08B00DE4781 /* CategoryPickerViewController.m */,
 				A9A099D71546F9990041C59F /* first.png */,
@@ -127,6 +137,15 @@
 				A9A099CD1546F9990041C59F /* MyLocations-Prefix.pch */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		A9E48352154C3C5E00B66907 /* img */ = {
+			isa = PBXGroup;
+			children = (
+				A9E4834E154C3C5100B66907 /* Checkmark.png */,
+				A9E4834F154C3C5100B66907 /* Checkmark@2x.png */,
+			);
+			name = img;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -186,6 +205,8 @@
 				A9A099DA1546F9990041C59F /* first@2x.png in Resources */,
 				A9A099DF1546F9990041C59F /* second.png in Resources */,
 				A9A099E11546F9990041C59F /* second@2x.png in Resources */,
+				A9E48350154C3C5100B66907 /* Checkmark.png in Resources */,
+				A9E48351154C3C5100B66907 /* Checkmark@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -202,6 +223,7 @@
 				A9A099DD1546F9990041C59F /* SecondViewController.m in Sources */,
 				A916E79F1549DB95001561A1 /* LocationDetailsViewController.m in Sources */,
 				A94A4912154AA08B00DE4781 /* CategoryPickerViewController.m in Sources */,
+				A9E4834C154C361700B66907 /* HudView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
