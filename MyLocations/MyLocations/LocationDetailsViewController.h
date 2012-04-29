@@ -21,6 +21,8 @@
 @property (nonatomic, assign) CLLocationCoordinate2D coordinate;
 @property (nonatomic, strong) CLPlacemark *placemark;
 
+@property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
+
 - (IBAction)cancel:(id)sender;
 - (IBAction)done:(id)sender;
 

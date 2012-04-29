@@ -35,6 +35,8 @@
 @synthesize tagButton;
 @synthesize getButton;
 
+@synthesize managedObjectContext;
+
 - (id)initWithCoder:(NSCoder *)aDecoder {
     if ((self = [super initWithCoder:aDecoder])) {
         locationManager = [[CLLocationManager alloc] init];
@@ -249,6 +251,8 @@
         LocationDetailsViewController *controller = (LocationDetailsViewController *)navigationController.topViewController;
         controller.coordinate = location.coordinate;
         controller.placemark = placemark;
+        
+        controller.managedObjectContext = self.managedObjectContext;
     }
 }
 
